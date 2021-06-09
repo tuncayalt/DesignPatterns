@@ -1,14 +1,20 @@
 ﻿using System;
 using DesignPatternsLibrary.Composite;
+using DesignPatternsLibrary.FactoryMethod;
 using System.Collections.Generic;
+using static System.Console;
 
 namespace DesignPatternsDemo
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            
             CompositeDemo();
+            WriteLine("-----------");
+            FactoryMethodDemo();
+            WriteLine("-----------");
         }
 
         static void CompositeDemo()
@@ -29,6 +35,23 @@ namespace DesignPatternsDemo
             group.AddComponent(dogs);
 
             group.DisplayComponents();
+        }
+
+        static void FactoryMethodDemo()
+        {
+            var factory = new CarFactory();
+            
+            var sedanCar = factory.CreateCar(CarType.Sedan);
+            sedanCar.Display();
+            sedanCar.Drive();
+
+            var hatchbackCar = factory.CreateCar(CarType.Hatchback);
+            hatchbackCar.Display();
+            hatchbackCar.Drive();
+
+            var suvCar = factory.CreateCar(CarType.Suv);
+            suvCar.Display();
+            suvCar.Drive();
         }
     }
 }
