@@ -1,7 +1,10 @@
 ﻿using System;
 using DesignPatternsLibrary.Composite;
 using DesignPatternsLibrary.FactoryMethod;
+using DesignPatternsLibrary.Observer;
 using System.Collections.Generic;
+using Observable = DesignPatternsLibrary.Observer.Observable;
+using IObservable = DesignPatternsLibrary.Observer.IObservable;
 using static System.Console;
 
 namespace DesignPatternsDemo
@@ -14,6 +17,8 @@ namespace DesignPatternsDemo
             CompositeDemo();
             WriteLine("-----------");
             FactoryMethodDemo();
+            WriteLine("-----------");
+            ObserverDemo();
             WriteLine("-----------");
         }
 
@@ -52,6 +57,21 @@ namespace DesignPatternsDemo
             var suvCar = factory.CreateCar(CarType.Suv);
             suvCar.Display();
             suvCar.Drive();
+        }
+
+        static void ObserverDemo()
+        {
+            IObservable observable = new Observable();
+
+            var observer1 = new Observer();
+            observer1.Subscribe(observable);
+
+            var observer2 = new Observer();
+            observer2.Subscribe(observable);
+
+            observable.Notify(1);
+            observable.Notify(5);
+            observable.Notify("a");
         }
     }
 }
