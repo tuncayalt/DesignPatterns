@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using Observable = DesignPatternsLibrary.Observer.Observable;
 using IObservable = DesignPatternsLibrary.Observer.IObservable;
 using static System.Console;
+using DesignPatternsDemo.MediatorObjects;
+using DesignPatternsLibrary.Mediators;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DesignPatternsDemo
 {
@@ -20,6 +23,28 @@ namespace DesignPatternsDemo
             WriteLine("-----------");
             ObserverDemo();
             WriteLine("-----------");
+            MediatorDemo();
+        }
+
+        private static async void MediatorDemo()
+        {
+            var serviceResolver = new ServiceCollection()
+                .AddTransient<PrintSomethingHandler>()
+                .BuildServiceProvider();
+
+            var handlerDetails = new Dictionary<Type, Type>
+            {
+                [typeof(PrintSomethingRequest)] = typeof(PrintSomethingHandler)
+            };
+
+            var request = new PrintSomethingRequest
+            {
+                Text = "Something needed"
+            };
+
+            IMediator mediator = new Mediator(serviceResolver.GetRequiredService, handlerDetails);
+            var response = await mediator.SendAsync(request);
+            WriteLine(response);
         }
 
         static void CompositeDemo()
